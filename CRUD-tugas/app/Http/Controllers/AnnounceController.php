@@ -64,7 +64,10 @@ class AnnounceController extends Controller
      */
     public function show($id)
     {
-        //
+        $data = Announce::where('id', $id)->first();
+        return view('detail-data',[
+            'data' => $data
+        ]);
     }
 
     /**
@@ -75,7 +78,7 @@ class AnnounceController extends Controller
      */
     public function edit($id)
     {
-        $data = Announce::where('id', $id);
+        $data = Announce::where('id', $id)->first();
         return view('edit-data',[
             'data' => $data
         ]);
@@ -90,7 +93,18 @@ class AnnounceController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $validatedData = $request->validate([
+            'nama' => 'required|max:100',
+            'nrp' => 'required|numeric',
+            'tahunmasuk' => 'required|numeric',
+            'semester' => 'required|numeric|min:1|max:8',
+            'jurusan' => 'required|max:100',
+            'ips' => 'required|digits_between:2,4:',
+            'ipk' => 'required|digits_between:2,4:'
+        ]);
+        $announces = Announce::findOrFail($id);
+        $announces->update($validatedData);
+        return redirect()->route('home')->with('edit_data', 'Pengeditan Data Berhasil');
     }
 
     /**
@@ -101,6 +115,8 @@ class AnnounceController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $announces = Announce::findOrFail($id);
+        $announces->delete();
+        return redirect()->route('home')->with('hapus_data', 'Pengeditan Data Berhasil');
     }
 }

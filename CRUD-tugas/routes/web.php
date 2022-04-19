@@ -22,3 +22,7 @@ Route::get('/', [AnnounceController::class, 'index'])->name('home');
 Route::get('/buat', [AnnounceController::class, 'create'])->name('announces.tambah-data');
 Route::post('/buat-data', [AnnounceController::class, 'store'])->name('announces.buat-data');
 Route::get('/edit/{id}', [AnnounceController::class, 'edit'])->name('announces.edit');
+Route::post('/update/{id}',[AnnounceController::class, 'update'])->name('announces.update');
+
+Route::get('/detail/{id}', [AnnounceController::class, 'show'])->name('announces.show');
+Route::delete('/delete/{id}', [AnnounceController::class, 'destroy'])->name('announces.destroy');
